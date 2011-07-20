@@ -199,6 +199,17 @@ class Kohana_Image_GD extends Image {
 			$this->height = imagesy($image);
 		}
 	}
+	
+	protected function _do_extend($width, $height, $color, $x_offset, $y_offset){
+		
+		$image = $this->_create($width, $height);
+		
+		imagefilledrectangle($image, 0, 0, $width, $height, $color);
+		
+		imagecopyresized($image, $this->_image, $x_offset, $y_offset, 0, 0, $this->width, $this->height, $this->width, $this->height);
+		imagedestroy($this->_image);
+		$this->_image = $image;
+	}
 
 	protected function _do_crop($width, $height, $offset_x, $offset_y)
 	{

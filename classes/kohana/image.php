@@ -259,6 +259,30 @@ abstract class Kohana_Image {
 	}
 
 	/**
+	 * Extend the picture to a given size, centering the original image
+	 *
+	 * @param   integer  new width
+	 * @param   integer  new height
+	 * @param   integer  background color
+	 * @return  $this
+	 * @uses    Image::_do_extend
+	 */
+	public function extend($width, $height, $color = 0x00ffffff)
+	{
+		$this->_load_image();
+		
+		if ($this->width > $width || $this->height > $height) {
+			$this->resize($width, $height);
+		}
+
+		$x_offset = floor(($width - $this->width) / 2);
+		$y_offset = floor(($height - $this->height) / 2);
+
+		$this->_do_extend($width, $height, $color, $x_offset, $y_offset);
+		return $this;
+	}
+
+	/**
 	 * Crop an image to the given size. Either the width or the height can be
 	 * omitted and the current width or height will be used.
 	 *
